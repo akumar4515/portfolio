@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggle, setFalse, setTrue } from '../../store/slices/clickedSlice';
+import Image from 'next/image';
 
 const Home = () => {
   const isClicked = useSelector((state) => state.isClicked.value);
@@ -34,32 +35,29 @@ const Home = () => {
     setCircles(generated);
   }, []);
 
-useEffect(() => {
-   if (!isClicked) return; 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(styles.show);
-        } else {
-          entry.target.classList.remove(styles.show); // 👈 Remove when not intersecting
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
+  useEffect(() => {
+    if (!isClicked) return;
+    const currentRefs = [...sectionRefs.current];
 
-  sectionRefs.current.forEach((el) => {
-    if (el) observer.observe(el);
-  });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.show);
+          } else {
+            entry.target.classList.remove(styles.show);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-  return () => {
-    sectionRefs.current.forEach((el) => {
-      if (el) observer.unobserve(el);
-    });
-  };
-}, [isClicked]);
+    currentRefs.forEach((el) => el && observer.observe(el));
 
+    return () => {
+      currentRefs.forEach((el) => el && observer.unobserve(el));
+    };
+  }, [isClicked]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -168,7 +166,7 @@ useEffect(() => {
     },
   ];
 
-   const skills = [
+  const skills = [
     { name: 'HTML', img: '/assets/html.png' },
     { name: 'CSS', img: '/assets/css.png' },
     { name: 'JavaScript', img: '/assets/js.png' },
@@ -189,54 +187,52 @@ useEffect(() => {
             <h3 className={`${styles.detailProfession}`}>Full Stack Developer</h3>
             <div className={`${styles.navBtn}`}>
               <div className={`${styles.navLink}`}>
-                <img src='/assets/github.png' alt="GitHub" />
+                <Image src='/assets/github.png' alt="GitHub Profile" width={32} height={32} />
               </div>
               <div className={`${styles.navLink}`}>
-                <img src='/assets/linkdn.png' alt="LinkedIn" />
+                <Image src='/assets/linkdn.png' alt="LinkedIn Profile" width={32} height={32} />
               </div>
             </div>
           </div>
           <div className={`${styles.heroPic}`}>
             <div className={`${styles.img}`}>
-              <img src='/assets/11.jpeg' alt="Profile" />
+              <Image src='/assets/11.jpeg' alt="Aman Kumar Profile" width={150} height={150} />
             </div>
           </div>
-<div
-  className={`${styles.heroNext}`}
-  onClick={() => {
-    dispatch(setTrue());
-    setTimeout(() => {
-      const el = document.getElementById("whatido");
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100); // Delay to wait for the section to mount
-  }}
->
-
+          <div
+            className={`${styles.heroNext}`}
+            onClick={() => {
+              dispatch(setTrue());
+              setTimeout(() => {
+                const el = document.getElementById("whatido");
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 100);
+            }}
+          >
             {'\u2193'}
           </div>
         </div>
       </div>
 
-
-      {isClicked?(
+      {isClicked ? (
         <>
-         <div id="whatido" className={`${styles.sectionWhatIDo} ${styles.observe}`} ref={(el) => (sectionRefs.current[3] = el)}>
+          <div id="whatido" className={`${styles.sectionWhatIDo} ${styles.observe}`} ref={(el) => (sectionRefs.current[3] = el)}>
             <h1 className={styles.sectionHead}>What I Do</h1>
             <div className={styles.whatIDoContainer}>
               <div className={styles.whatIDoCard}>
-                <img src="/assets/frontend.jpg" alt="Frontend Development" className={styles.whatIDoImage} />
+                <Image src="/assets/frontend.jpg" alt="Frontend Development" className={styles.whatIDoImage} width={300} height={200} />
                 <h3>Frontend Development</h3>
                 <p>Building responsive, user-friendly UIs using React, HTML, CSS, and JavaScript.</p>
               </div>
               <div className={styles.whatIDoCard}>
-                <img src="/assets/backend.jpg" alt="Backend Development" className={styles.whatIDoImage} />
+                <Image src="/assets/backend.jpg" alt="Backend Development" className={styles.whatIDoImage} width={300} height={200} />
                 <h3>Backend Development</h3>
                 <p>Creating secure and scalable APIs using Node.js, Express.js, and MongoDB.</p>
               </div>
               <div className={styles.whatIDoCard}>
-                <img src="/assets/app.jpg" alt="App Development" className={styles.whatIDoImage} />
+                <Image src="/assets/app.jpg" alt="App Development" className={styles.whatIDoImage} width={300} height={200} />
                 <h3>App Development</h3>
                 <p>Developing cross-platform mobile apps using React Native and Firebase.</p>
               </div>
@@ -245,167 +241,168 @@ useEffect(() => {
             <div className={styles.skillsGrid}>
               {skills.map(skill => (
                 <div key={skill.name} className={styles.skillItem}>
-                  <img src={skill.img} alt={skill.name} />
+                  <Image src={skill.img} alt={`${skill.name} Logo`} width={100} height={100} />
                   <span>{skill.name}</span>
                 </div>
               ))}
             </div>
           </div>
-      <div className={`${styles.section1} ${styles.observe}`} id='myJourney' ref={(el) => (sectionRefs.current[0] = el)}>
-        <div className={`${styles.sec1Animate}`}>
-          {cell}
-        </div>
-        <h1 className={`${styles.sectionHead}`}>My Journey</h1>
-        <div className={`${styles.sec1Cont}`}>
-          {journey.map((j) => (
-            <div key={j.j_no} className={`${styles.cont1}`}>
-              <div className={`${styles.jno}`}>
-                {j.j_no}
-              </div>
-              <div className={`${styles.jcont}`}>
-                <h3>{j.date}</h3>
-                <h4>{j.highlight}</h4>
-                <p>{j.content}</p>
-              </div>
+          <div className={`${styles.section1} ${styles.observe}`} id='myJourney' ref={(el) => (sectionRefs.current[0] = el)}>
+            <div className={`${styles.sec1Animate}`}>
+              {cell}
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={`${styles.section2} ${styles.observe}`} ref={(el) => (sectionRefs.current[1] = el)}>
-        {circles.map((circle) => (
-          <div
-            key={circle.id}
-            className={`${styles.pop}`}
-            style={{
-              top: `${circle.top}%`,
-              left: `${circle.left}%`,
-              width: `${circle.size}px`,
-              height: `${circle.size}px`,
-              animationDuration: `${circle.duration}s`,
-              '--dx': `${circle.dx}px`,
-              '--dy': `${circle.dy}px`,
-            }}
-          />
-        ))}
-        <div className={`${styles.sec2Head}`}>
-          MY WORK
-        </div>
-        <div className={styles.work}>
-          {projects.map((project, index) => (
-            <div key={project.id} className={`${styles.workCard}`}>
-              <div className={styles.cardWrapper}>
-                <div className={styles.card1}>
-                  <img src={project.card1Img} alt="Card 1" />
+            <h1 className={`${styles.sectionHead}`}>My Journey</h1>
+            <div className={`${styles.sec1Cont}`}>
+              {journey.map((j) => (
+                <div key={j.j_no} className={`${styles.cont1}`}>
+                  <div className={`${styles.jno}`}>
+                    {j.j_no}
+                  </div>
+                  <div className={`${styles.jcont}`}>
+                    <h3>{j.date}</h3>
+                    <h4>{j.highlight}</h4>
+                    <p>{j.content}</p>
+                  </div>
                 </div>
-                <div
-                  className={styles.card2}
-                  onMouseEnter={() => videoRefs.current[index]?.play()}
-                  onMouseLeave={() => {
-                    const video = videoRefs.current[index];
-                    if (video) {
-                      video.pause();
-                      video.currentTime = 0;
-                    }
-                  }}
-                >
-                  <video
-                    ref={(el) => (videoRefs.current[index] = el)}
-                    src={project.card2Img}
-                    muted
-                    loop
-                    playsInline
-                    className={styles.video}
+              ))}
+            </div>
+          </div>
+
+          <div className={`${styles.section2} ${styles.observe}`} ref={(el) => (sectionRefs.current[1] = el)}>
+            {circles.map((circle) => (
+              <div
+                key={circle.id}
+                className={`${styles.pop}`}
+                style={{
+                  top: `${circle.top}%`,
+                  left: `${circle.left}%`,
+                  width: `${circle.size}px`,
+                  height: `${circle.size}px`,
+                  animationDuration: `${circle.duration}s`,
+                  '--dx': `${circle.dx}px`,
+                  '--dy': `${circle.dy}px`,
+                }}
+              />
+            ))}
+            <div className={`${styles.sec2Head}`}>
+              MY WORK
+            </div>
+            <div className={styles.work}>
+              {projects.map((project, index) => (
+                <div key={project.id} className={`${styles.workCard}`}>
+                  <div className={styles.cardWrapper}>
+                    <div className={styles.card1}>
+                      <Image src={project.card1Img} alt={`${project.title} Preview`} width={300} height={200} />
+                    </div>
+                    <div
+                      className={styles.card2}
+                      onMouseEnter={() => videoRefs.current[index]?.play()}
+                      onMouseLeave={() => {
+                        const video = videoRefs.current[index];
+                        if (video) {
+                          video.pause();
+                          video.currentTime = 0;
+                        }
+                      }}
+                    >
+                      <video
+                        ref={(el) => (videoRefs.current[index] = el)}
+                        src={project.card2Img}
+                        muted
+                        loop
+                        playsInline
+                        className={styles.video}
+                      />
+                    </div>
+                  </div>
+                  <div className={`${styles.details}`}>
+                    <h2>{project.title}</h2>
+                    <p>{project.p1}</p>
+                    <p>{project.p2}</p>
+                    <p>{project.p3}</p>
+                    <p>{project.p4}</p>
+                  </div>
+                  <div className={styles.nav}>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                      <div className={`${styles.navLink}`}>
+                        <Image src="/assets/github.png" alt="GitHub Profile" width={32} height={32} />
+                      </div>
+                    </a>
+                    <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
+                      <div className={`${styles.navLink}`}>
+                        <Image src="/assets/linkdn.png" alt="LinkedIn Profile" width={32} height={32} />
+                      </div>
+                    </a>
+                    <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+                      <button className={`${styles.workBtn}`}>View</button>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={`${styles.footer} ${styles.observe}`} ref={(el) => (sectionRefs.current[2] = el)}>
+            <div className={`${styles.footerContent}`}>
+              <h2 className={`${styles.sectionHead}`}>
+                Thanks for Visiting My Profile!
+              </h2>
+              <p className={`${styles.footerText}`}>
+                I'm excited to connect! Reach out via the form below or find me on social media.
+              </p>
+              <div className={`${styles.footerForm}`}>
+                <h2 className={`${styles.footerFormHead}`}>Contact Me</h2>
+                <form className={`${styles.contactForm}`} onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className={`${styles.inputField}`}
+                    required
                   />
-                </div>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    className={`${styles.inputField}`}
+                    required
+                  />
+                  <textarea
+                    placeholder="Your Message"
+                    className={`${styles.textArea}`}
+                    required
+                  />
+                  <button type="submit" className={`${styles.submitBtn}`}>
+                    Send Message
+                  </button>
+                </form>
               </div>
-              <div className={`${styles.details}`}>
-                <h2>{project.title}</h2>
-                <p>{project.p1}</p>
-                <p>{project.p2}</p>
-                <p>{project.p3}</p>
-                <p>{project.p4}</p>
-              </div>
-              <div className={styles.nav}>
-                <a href={project.github} target="_blank" rel="noopener noreferrer">
+              <div className={`${styles.socialIcons}`}>
+                <a
+                  href="https://github.com/akumar4515/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub Profile"
+                >
                   <div className={`${styles.navLink}`}>
-                    <img src="/assets/github.png" alt="GitHub" />
+                    <Image src="/assets/github.png" alt="GitHub Profile" width={32} height={32} />
                   </div>
                 </a>
-                <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://www.linkedin.com/in/aman-kumar-2k2/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn Profile"
+                >
                   <div className={`${styles.navLink}`}>
-                    <img src="/assets/linkdn.png" alt="LinkedIn" />
+                    <Image src="/assets/linkdn.png" alt="LinkedIn Profile" width={32} height={32} />
                   </div>
                 </a>
-                <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-                  <button className={`${styles.workBtn}`}>View</button>
-                </a>
               </div>
+               @copyright Aman-Kumar
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={`${styles.footer} ${styles.observe}`} ref={(el) => (sectionRefs.current[2] = el)}>
-        <div className={`${styles.footerContent}`}>
-          <h2 className={`${styles.sectionHead}`}>
-            Thanks for Visiting My Profile!
-          </h2>
-          <p className={`${styles.footerText}`}>
-            I'm excited to connect! Reach out via the form below or find me on social media.
-          </p>
-          <div className={`${styles.footerForm}`}>
-            <h2 className={`${styles.footerFormHead}`}>Contact Me</h2>
-            <form className={`${styles.contactForm}`} onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className={`${styles.inputField}`}
-                required
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                className={`${styles.inputField}`}
-                required
-              />
-              <textarea
-                placeholder="Your Message"
-                className={`${styles.textArea}`}
-                required
-              />
-              <button type="submit" className={`${styles.submitBtn}`}>
-                Send Message
-              </button>
-            </form>
+           
           </div>
-          <div className={`${styles.socialIcons}`}>
-            <a
-              href="https://github.com/akumar4515/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-            >
-              <div className={`${styles.navLink}`}>
-                <img src="/assets/github.png" alt="GitHub" />
-              </div>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/aman-kumar-2k2/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-            >
-              <div className={`${styles.navLink}`}>
-                <img src="/assets/linkdn.png" alt="LinkedIn" />
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-      </>
-    
-       ):""}
+        </>
+      ) : ""}
     </div>
   );
 };
