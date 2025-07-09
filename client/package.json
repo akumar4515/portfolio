@@ -2,15 +2,13 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-   "build": "next build",
-  "postbuild": "netlify build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+ "scripts": {
+  "dev": "next dev --turbopack",
+  "build": "next build && next export",
+  "start": "next start",
+  "lint": "next lint"
+},
   "dependencies": {
-    "@netlify/next": "^1.4.9",
     "@reduxjs/toolkit": "^2.8.2",
     "next": "15.3.5",
     "next-redux-wrapper": "^8.1.0",
@@ -21,6 +19,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@netlify/next": "^1.4.9",
     "eslint": "^9",
     "eslint-config-next": "15.3.5"
   }
