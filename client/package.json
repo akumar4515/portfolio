@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+   "build": "next build",
+  "postbuild": "netlify build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@netlify/next": "^1.4.9",
     "@reduxjs/toolkit": "^2.8.2",
     "next": "15.3.5",
     "next-redux-wrapper": "^8.1.0",
