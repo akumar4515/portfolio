@@ -348,7 +348,7 @@ const Home = () => {
                 Thanks for Visiting My Profile!
               </h2>
               <p className={`${styles.footerText}`}>
-                I'm excited to connect! Reach out via the form below or find me on social media.
+                I&apos;m excited to connect! Reach out via the form below or find me on social media.
               </p>
               <div className={`${styles.footerForm}`}>
                 <h2 className={`${styles.footerFormHead}`}>Contact Me</h2>
@@ -397,9 +397,7 @@ const Home = () => {
                   </div>
                 </a>
               </div>
-               @copyright Aman-Kumar
             </div>
-           
           </div>
         </>
       ) : ""}
