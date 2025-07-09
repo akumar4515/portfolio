@@ -7,4 +7,4 @@
   directory = "netlify/functions"
 
 [[plugins]]
-  package = "@netlify/next"
+ package = "@netlify/next"
