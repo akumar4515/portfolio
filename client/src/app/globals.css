@@ -1,0 +1,14 @@
+:root{
+  --primary-color: #4A90E2;
+  --secondary-color: #333;
+  --font-size-base: 16px;
+  --border-radius: 10px;
+  --background-color:black;
+  --width:100vw;
+}
+body{
+  padding:0px;
+  margin:0px;
+  color:rgba(180, 193, 236, 0.486);
+  font-family: monospace;
+}
