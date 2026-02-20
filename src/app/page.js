@@ -151,19 +151,6 @@ const Home = () => {
       p3: "Displays UI components and design works",
       p4: "Built using React and styled-components",
     },
-    {
-      id: 5,
-      card1Img: '/assets/chessmate.jpeg',
-      card2Img: '/assets/chessmate.mp4',
-      github: 'https://github.com/another-project',
-      linkedin: 'https://www.linkedin.com/in/aman-kumar-2k2/',
-      projectUrl: '',
-      title: "ChessMate Multiplayer App",
-      p1: "Real-time chess with multiplayer mode",
-      p2: "Integrated chat and game logic",
-      p3: "Built with React Native, Node.js, and Socket.IO",
-      p4: "Includes AI mode, friend invites & video calls",
-    },
   ];
 
   const skills = [
@@ -232,9 +219,9 @@ const Home = () => {
                 <p>Creating secure and scalable APIs using Node.js, Express.js, and MongoDB.</p>
               </div>
               <div className={styles.whatIDoCard}>
-                <Image src="/assets/app.jpg" alt="App Development" className={styles.whatIDoImage} width={300} height={200} />
-                <h3>App Development</h3>
-                <p>Developing cross-platform mobile apps using React Native and Firebase.</p>
+                <Image src="/assets/seo.jpg" alt="SEO Optimization" className={styles.whatIDoImage} width={300} height={200} />
+                <h3>SEO Optimization</h3>
+                <p>Improving website rankings with technical SEO, on-page optimization, and performance-focused structure.</p>
               </div>
             </div>
             <h2 className={styles.sectionSubHead}>Skills</h2>
@@ -284,61 +271,68 @@ const Home = () => {
                 }}
               />
             ))}
-            <div className={`${styles.sec2Head}`}>
-              MY WORK
-            </div>
-            <div className={styles.work}>
-              {projects.map((project, index) => (
-                <div key={project.id} className={`${styles.workCard}`}>
-                  <div className={styles.cardWrapper}>
-                    <div className={styles.card1}>
-                      <Image src={project.card1Img} alt={`${project.title} Preview`} width={300} height={200} />
-                    </div>
-                    <div
-                      className={styles.card2}
-                      onMouseEnter={() => videoRefs.current[index]?.play()}
-                      onMouseLeave={() => {
-                        const video = videoRefs.current[index];
-                        if (video) {
-                          video.pause();
-                          video.currentTime = 0;
-                        }
-                      }}
-                    >
-                      <video
-                        ref={(el) => (videoRefs.current[index] = el)}
-                        src={project.card2Img}
-                        muted
-                        loop
-                        playsInline
-                        className={styles.video}
-                      />
-                    </div>
-                  </div>
-                  <div className={`${styles.details}`}>
-                    <h2>{project.title}</h2>
-                    <p>{project.p1}</p>
-                    <p>{project.p2}</p>
-                    <p>{project.p3}</p>
-                    <p>{project.p4}</p>
-                  </div>
-                  <div className={styles.nav}>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <div className={`${styles.navLink}`}>
-                        <Image src="/assets/github.png" alt="GitHub Profile" width={32} height={32} />
+            <div className={styles.workShell}>
+              <div className={styles.workHeader}>
+                <h2 className={`${styles.sec2Head}`}>My Work</h2>
+              </div>
+              <div className={styles.work}>
+                {projects.map((project, index) => (
+                  <div key={project.id} className={`${styles.workCard}`}>
+                    <div className={styles.cardWrapper}>
+                      <div className={styles.cardInner}>
+                        <div className={styles.cardFront}>
+                          <video
+                            ref={(el) => (videoRefs.current[index] = el)}
+                            src={project.card2Img}
+                            muted
+                            loop
+                            autoPlay
+                            playsInline
+                            className={styles.video}
+                          />
+                          <div className={styles.videoOverlay}>
+                            <h3>{project.title}</h3>
+                            <span>Hover for more detail</span>
+                          </div>
+                        </div>
+                        <div className={styles.cardBack}>
+                          <Image src={project.card1Img} alt={`${project.title} Preview`} width={280} height={170} className={styles.backImage} />
+                          <div className={styles.backDetails}>
+                            <h2>{project.title}</h2>
+                            <ul>
+                              <li>{project.p1}</li>
+                              <li>{project.p2}</li>
+                              <li>{project.p3}</li>
+                              <li>{project.p4}</li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                    </a>
-                    <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
-                      <div className={`${styles.navLink}`}>
-                        <Image src="/assets/linkdn.png" alt="LinkedIn Profile" width={32} height={32} />
-                      </div>
-                    </a>
-                    <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-                      <button className={`${styles.workBtn}`}>View</button>
-                    </a>
+                    </div>
+                    <div className={styles.nav}>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <div className={`${styles.navLink}`}>
+                          <Image src="/assets/github.png" alt="GitHub Profile" width={32} height={32} />
+                        </div>
+                      </a>
+                      <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
+                        <div className={`${styles.navLink}`}>
+                          <Image src="/assets/linkdn.png" alt="LinkedIn Profile" width={32} height={32} />
+                        </div>
+                      </a>
+                      {project.projectUrl ? (
+                        <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+                          <button className={`${styles.workBtn}`}>View Live</button>
+                        </a>
+                      ) : (
+                        <button className={`${styles.workBtn} ${styles.workBtnDisabled}`} disabled>
+                          Coming Soon
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
