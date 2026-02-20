@@ -11,7 +11,7 @@
   "dependencies": {
     "@netlify/next": "^1.4.9",
     "@reduxjs/toolkit": "^2.8.2",
-    "next": "15.3.5",
+    "next": "^16.1.6",
     "next-redux-wrapper": "^8.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -21,6 +21,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.5"
+    "eslint-config-next": "^16.1.6"
   }
 }
